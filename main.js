@@ -1,1 +1,1 @@
-const baseUrl = "https://quot-api.azurewebsites.net/api";
+const baseUrl = "https://quot-http-func.azurewebsites.net/api";
