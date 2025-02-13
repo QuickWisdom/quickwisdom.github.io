@@ -138,7 +138,8 @@
     <footer
         style="background-color: #2c3e50; padding: 20px; text-align: center; position: fixed; width: 100%; bottom: 0;">
         <p style="color: #ffffff; font-size: 1.2em; margin: 0;">
-            <a href="disclaimer.html" style="color: #f39c12; text-decoration: none; font-weight: bold;">Disclaimer</a>
+            <a href="disclaimer.html" style="color: #f39c12; text-decoration: none; font-weight: bold;">Disclaimer</a> |
+            <a id="install-btn" href="#" style="color: #f39c12; text-decoration: none; font-weight: bold;">Install App</a>
         </p>
     </footer>
 
@@ -153,6 +154,25 @@
                 .then(() => console.log("Service Worker registered"))
                 .catch((error) => console.error("Service Worker registration failed:", error));
         }
+
+        let deferredPrompt;
+        window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById("install-btn").style.display = "block";
+        });
+
+        document.getElementById("install-btn").addEventListener("click", () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === "accepted") {
+                        console.log("PWA installed");
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
 
         const defaultQuote = {
             text: "Patience and perseverance have a magical effect before which difficulties disappear and obstacles vanish.",
