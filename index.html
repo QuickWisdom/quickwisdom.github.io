@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quick Wisdom</title>
@@ -146,6 +147,13 @@
 
 
     <script>
+
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then(() => console.log("Service Worker registered"))
+                .catch((error) => console.error("Service Worker registration failed:", error));
+        }
+
         const defaultQuote = {
             text: "Patience and perseverance have a magical effect before which difficulties disappear and obstacles vanish.",
             owner: "John Quincy Adams"
